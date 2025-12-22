@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muebles en Venta - Casa Pedro Moran</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+            text-align: center;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+            text-align: center;
+        }
+        
+        .admin-badge {
+            background: #ff4444;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 25px;
+            display: inline-block;
+            margin-left: 15px;
+            font-size: 0.7em;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .zone-section {
+            margin-bottom: 50px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .zone-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .zone-header:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+        
+        .zone-title {
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+        
+        .zone-subtotal {
+            font-size: 1.3em;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 20px;
+            border-radius: 20px;
+        }
+        
+        .zone-content {
+            padding: 20px;
+            background: #f9f9f9;
+        }
+        
+        .furniture-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .furniture-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            background: white;
+            position: relative;
+        }
+        
+        .furniture-card:hover {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            transform: translateY(-5px);
+        }
+        
+        .furniture-card.selected {
+            border-color: #4CAF50;
+            background: #f1f8f4;
+            box-shadow: 0 0 20px rgba(76, 175, 80, 0.3);
+        }
+        
+        .furniture-card.selected::before {
+            content: '✓';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #4CAF50;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+            z-index: 10;
+        }
+        
+        .furniture-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea20 0%, #764ba220 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4em;
+            color: #667eea;
+        }
+        
+        .furniture-info {
+            padding: 20px;
+        }
+        
+        .furniture-name {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            min-height: 50px;
+        }
+        
+        .furniture-price {
+            font-size: 1.8em;
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            padding: 12px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+        
+        .checkbox-container:hover {
+            background: #f0f0f0;
+            border-color: #667eea;
+        }
+        
+        .checkbox-container input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            accent-color: #4CAF50;
+        }
+        
+        .checkbox-label {
+            font-weight: 600;
+            color: #555;
+            font-size: 1.1em;
+        }
+        
+        .summary {
+            position: sticky;
+            bottom: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            z-index: 100;
+        }
+        
+        .summary h2 {
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        
+        .summary-items {
+            margin-bottom: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .summary-item {
+            padding: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+        
+        .summary-total {
+            font-size: 2.2em;
+            font-weight: bold;
+            padding-top: 20px;
+            border-top: 3px solid white;
+            text-align: center;
+        }
+        
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        
+        .stat-number {
+            font-size: 3em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .furniture-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .zone-header {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+            
+            .zone-title {
+                font-size: 1.4em;
+            }
+            
+            .summary {
+                padding: 15px;
+                bottom: 10px;
+            }
+            
+            .summary-total {
+                font-size: 1.8em;
+            }
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 80px;
+            color: white;
+            font-size: 1.5em;
+        }
+        
+        .loading::after {
+            content: '...';
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+        
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="loading" class="loading">Cargando muebles</div>
+        <div id="app" style="display: none;">
+            <h1>
+                🏠 Muebles en Venta
+                <span id="adminBadge" style="display: none;" class="admin-badge">👨‍💼 VISTA ADMIN</span>
+            </h1>
+            <p class="subtitle" id="subtitle">Seleccioná los muebles que te interesan comprando la casa</p>
+            
+            <div id="adminStats" style="display: none;" class="admin-stats"></div>
+            
+            <div id="zonesContainer"></div>
+            
+            <div id="summary" class="summary" style="display: none;">
+                <h2>📋 Resumen de Selección</h2>
+                <div id="summaryItems" class="summary-items"></div>
+                <div class="summary-total">
+                    Total: <span id="totalPrice">$0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        // Configuración de Firebase
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getDatabase, ref, set, onValue } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDbQIncaAcBArd1BWgihXTlEYv2zaBbzmE",
+            authDomain: "pedro-moran-4605.firebaseapp.com",
+            databaseURL: "https://pedro-moran-4605-default-rtdb.firebaseio.com",
+            projectId: "pedro-moran-4605",
+            storageBucket: "pedro-moran-4605.firebasestorage.app",
+            messagingSenderId: "967992952708",
+            appId: "1:967992952708:web:b9a26f2cde953339e1ffd1",
+            measurementId: "G-6NYKB5GZKF"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+        const selectionsRef = ref(database, 'selections');
+
+        // Datos de los muebles organizados por zona
+        const furnitureByZone = {
+            "Living": [
+                { id: 1, name: "Rack de TV (pitiribí)", price: 1400000, icon: "📺" },
+                { id: 2, name: "Mesa ratona (pitiribí)", price: 400000, icon: "🪑" },
+                { id: 3, name: "Sillón - sofá con funda", price: 300000, icon: "🛋️" }
+            ],
+            "Comedor": [
+                { id: 4, name: "Mesa (pitiribí)", price: 800000, icon: "🪑" },
+                { id: 5, name: "6 Sillas pitiribí + fundas tusor", price: 1500000, icon: "🪑" },
+                { id: 6, name: "Lámpara nórdica", price: 70000, icon: "💡" },
+                { id: 7, name: "Biblioteca nórdica", price: 110000, icon: "📚" }
+            ],
+            "Habitación": [
+                { id: 8, name: "Sillón pitiribí", price: 400000, icon: "🛋️" },
+                { id: 9, name: "2 Mesas de luz (álamo)", price: 400000, icon: "🛏️" },
+                { id: 10, name: "Escritorio (álamo)", price: 200000, icon: "🖥️" },
+                { id: 11, name: "Cama Box 2x2m", price: 200000, icon: "🛏️" },
+                { id: 12, name: "Cómoda (álamo)", price: 400000, icon: "👔" }
+            ],
+            "Habitación Infantil": [
+                { id: 13, name: "Mesas de luz y base cama 1 plaza y 1/2", price: 500000, icon: "🛏️" }
+            ],
+            "Cocina": [
+                { id: 14, name: "Heladera Samsung No Frost Inverter", price: 800000, icon: "🧊" },
+                { id: 15, name: "Microondas BGH con Grill y convector", price: 450000, icon: "🍽️" }
+            ],
+            "Lavadero": [
+                { id: 16, name: "Lava-secarropas Candy", price: 700000, icon: "🧺" }
+            ],
+            "Quincho": [
+                { id: 17, name: "Microondas Whirlpool", price: 150000, icon: "🍽️" },
+                { id: 18, name: "Heladera bajo mesada", price: 280000, icon: "🧊" },
+                { id: 19, name: "Juego de quincho (sillón, mesa ratona y dos sillones)", price: 250000, icon: "🪑" },
+                { id: 20, name: "Grupo Electrógeno a gas Lusqtoff 3500", price: 1100000, icon: "⚡" },
+                { id: 21, name: "12 Sillas nórdicas", price: 200000, icon: "🪑" },
+                { id: 22, name: "Mesa extendible", price: 450000, icon: "🪑" }
+            ],
+            "Patio": [
+                { id: 23, name: "Juego de sillas símil ratán", price: 200000, icon: "🌿" }
+            ],
+            "Decoración": [
+                { id: 24, name: "5 Macetones con plantas", price: 350000, icon: "🪴" },
+                { id: 25, name: "Cuadro de acero calado living, cuadros de comedor y toilet, cuadro de habitación, fanales escalera", price: 350000, icon: "🖼️" }
+            ]
+        };
+
+        let selections = {};
+        const isAdmin = window.location.search.includes('admin');
+
+        // Escuchar cambios en Firebase
+        onValue(selectionsRef, (snapshot) => {
+            const data = snapshot.val() || {};
+            selections = {};
+            Object.keys(data).forEach(key => {
+                selections[key] = data[key].selected;
+            });
+            updateUI();
+        });
+
+        function saveSelection(id, selected) {
+            set(ref(database, 'selections/' + id), {
+                selected: selected,
+                timestamp: Date.now()
+            });
+        }
+
+        function formatPrice(price) {
+            return '$' + price.toLocaleString('es-AR');
+        }
+
+        function calculateZoneSubtotal(items) {
+            return items.reduce((sum, item) => sum + item.price, 0);
+        }
+
+        function renderZones() {
+            const container = document.getElementById('zonesContainer');
+            container.innerHTML = '';
+
+            Object.entries(furnitureByZone).forEach(([zoneName, items]) => {
+                const zoneSection = document.createElement('div');
+                zoneSection.className = 'zone-section';
+
+                const subtotal = calculateZoneSubtotal(items);
+                const selectedCount = items.filter(item => selections[item.id]).length;
+                const selectedSubtotal = items
+                    .filter(item => selections[item.id])
+                    .reduce((sum, item) => sum + item.price, 0);
+
+                zoneSection.innerHTML = `
+                    <div class="zone-header">
+                        <div class="zone-title">📍 ${zoneName}</div>
+                        <div class="zone-subtotal">
+                            ${selectedCount > 0 ? `${formatPrice(selectedSubtotal)} / ` : ''}${formatPrice(subtotal)}
+                        </div>
+                    </div>
+                    <div class="zone-content">
+                        <div class="furniture-grid" id="zone-${zoneName.replace(/\s/g, '-')}"></div>
+                    </div>
+                `;
+
+                container.appendChild(zoneSection);
+
+                const grid = document.getElementById(`zone-${zoneName.replace(/\s/g, '-')}`);
+                items.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'furniture-card';
+                    if (selections[item.id]) card.classList.add('selected');
+
+                    card.innerHTML = `
+                        <div class="furniture-image">${item.icon}</div>
+                        <div class="furniture-info">
+                            <div class="furniture-name">${item.name}</div>
+                            <div class="furniture-price">${formatPrice(item.price)}</div>
+                            <label class="checkbox-container">
+                                <input type="checkbox" 
+                                       ${selections[item.id] ? 'checked' : ''} 
+                                       ${isAdmin ? 'disabled' : ''}
+                                       onchange="window.toggleSelection(${item.id}, this.checked)">
+                                <span class="checkbox-label">
+                                    ${isAdmin ? (selections[item.id] ? '✓ Seleccionado' : '○ No seleccionado') : 'Me interesa'}
+                                </span>
+                            </label>
+                        </div>
+                    `;
+
+                    grid.appendChild(card);
+                });
+            });
+        }
+
+        function updateSummary() {
+            const allItems = Object.values(furnitureByZone).flat();
+            const selectedItems = allItems.filter(item => selections[item.id]);
+            const summaryDiv = document.getElementById('summary');
+            const itemsDiv = document.getElementById('summaryItems');
+            const totalDiv = document.getElementById('totalPrice');
+
+            if (selectedItems.length === 0) {
+                summaryDiv.style.display = 'none';
+                return;
+            }
+
+            summaryDiv.style.display = 'block';
+            itemsDiv.innerHTML = selectedItems.map(item => `
+                <div class="summary-item">
+                    <span>${item.icon} ${item.name}</span>
+                    <strong>${formatPrice(item.price)}</strong>
+                </div>
+            `).join('');
+
+            const total = selectedItems.reduce((sum, item) => sum + item.price, 0);
+            totalDiv.textContent = formatPrice(total);
+        }
+
+        function updateAdminStats() {
+            const statsDiv = document.getElementById('adminStats');
+            const allItems = Object.values(furnitureByZone).flat();
+            const selectedItems = allItems.filter(item => selections[item.id]);
+            const total = selectedItems.reduce((sum, item) => sum + item.price, 0);
+            const totalPossible = allItems.reduce((sum, item) => sum + item.price, 0);
+
+            statsDiv.innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-number">${selectedItems.length}</div>
+                    <div class="stat-label">Muebles Seleccionados de ${allItems.length}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${formatPrice(total)}</div>
+                    <div class="stat-label">Total Seleccionado</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${Math.round((total / totalPossible) * 100)}%</div>
+                    <div class="stat-label">Del Total Posible (${formatPrice(totalPossible)})</div>
+                </div>
+            `;
+        }
+
+        function updateUI() {
+            renderZones();
+            updateSummary();
+            if (isAdmin) updateAdminStats();
+        }
+
+        window.toggleSelection = function(id, selected) {
+            saveSelection(id, selected);
+        };
+
+        // Inicializar
+        if (isAdmin) {
+            document.getElementById('adminBadge').style.display = 'inline-block';
+            document.getElementById('adminStats').style.display = 'grid';
+            document.getElementById('subtitle').textContent = 'Vista de administrador - Monitoreando selecciones en tiempo real';
+        }
+
+        setTimeout(() => {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('app').style.display = 'block';
+            updateUI();
+        }, 1000);
+    </script>
+</body>
+</html>
