@@ -19,6 +19,78 @@
             min-height: 100vh;
         }
         
+        /* Modal para pedir nombre */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 10px 50px rgba(0,0,0,0.5);
+        }
+        
+        .modal-content h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+        
+        .modal-content p {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        
+        .modal-content input {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2em;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .modal-content input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .modal-content button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+        
+        .modal-content button:hover {
+            transform: scale(1.05);
+        }
+        
+        .modal-content button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
         .container {
             max-width: 1400px;
             margin: 0 auto;
@@ -37,8 +109,20 @@
         
         .subtitle {
             color: #666;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             font-size: 1.1em;
+            text-align: center;
+        }
+        
+        .user-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 25px;
+            display: inline-block;
+            margin: 0 auto 20px;
+            font-size: 1.1em;
+            font-weight: bold;
             text-align: center;
         }
         
@@ -59,6 +143,117 @@
             50% { opacity: 0.7; }
         }
         
+        /* Tabs para vista admin */
+        .admin-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+        
+        .admin-tab {
+            padding: 12px 25px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s;
+        }
+        
+        .admin-tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .admin-tab:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        /* Resumen sticky colapsable */
+        .summary-sticky {
+            position: sticky;
+            top: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            z-index: 100;
+            overflow: hidden;
+        }
+        
+        .summary-header {
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+        }
+        
+        .summary-header:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .summary-title {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        
+        .summary-quick {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+        
+        .summary-count {
+            font-size: 1.2em;
+        }
+        
+        .summary-total-quick {
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+        
+        .summary-toggle {
+            font-size: 1.5em;
+            transition: transform 0.3s;
+        }
+        
+        .summary-toggle.collapsed {
+            transform: rotate(180deg);
+        }
+        
+        .summary-content {
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 0 20px 20px 20px;
+            transition: max-height 0.3s ease;
+        }
+        
+        .summary-content.collapsed {
+            max-height: 0;
+            padding: 0;
+        }
+        
+        .summary-item {
+            padding: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+        
         .zone-section {
             margin-bottom: 50px;
             border: 2px solid #e0e0e0;
@@ -73,12 +268,6 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .zone-header:hover {
-            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
         }
         
         .zone-title {
@@ -131,26 +320,99 @@
             right: 10px;
             background: #4CAF50;
             color: white;
-            width: 30px;
-            height: 30px;
+            width: 35px;
+            height: 35px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 18px;
+            font-size: 20px;
             z-index: 10;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        
+        /* Badges de quién seleccionó */
+        .selected-by-badges {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            z-index: 10;
+        }
+        
+        .selected-by-badge {
+            background: rgba(102, 126, 234, 0.95);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+        
+        .furniture-image-container {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            background: #f0f0f0;
+            overflow: hidden;
         }
         
         .furniture-image {
             width: 100%;
-            height: 200px;
-            background: linear-gradient(135deg, #667eea20 0%, #764ba220 100%);
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .image-gallery {
+            position: relative;
+        }
+        
+        .gallery-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.6);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 4em;
-            color: #667eea;
+            z-index: 5;
+            transition: background 0.3s;
+        }
+        
+        .gallery-nav:hover {
+            background: rgba(0,0,0,0.8);
+        }
+        
+        .gallery-nav.prev {
+            left: 10px;
+        }
+        
+        .gallery-nav.next {
+            right: 10px;
+        }
+        
+        .gallery-counter {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            z-index: 5;
         }
         
         .furniture-info {
@@ -200,49 +462,6 @@
             font-weight: 600;
             color: #555;
             font-size: 1.1em;
-        }
-        
-        .summary {
-            position: sticky;
-            bottom: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 25px;
-            border-radius: 12px;
-            margin-top: 40px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-            z-index: 100;
-        }
-        
-        .summary h2 {
-            margin-bottom: 20px;
-            font-size: 1.8em;
-        }
-        
-        .summary-items {
-            margin-bottom: 20px;
-            max-height: 300px;
-            overflow-y: auto;
-        }
-        
-        .summary-item {
-            padding: 12px;
-            border-bottom: 1px solid rgba(255,255,255,0.2);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .summary-item:last-child {
-            border-bottom: none;
-        }
-        
-        .summary-total {
-            font-size: 2.2em;
-            font-weight: bold;
-            padding-top: 20px;
-            border-top: 3px solid white;
-            text-align: center;
         }
         
         .admin-stats {
@@ -295,13 +514,17 @@
                 font-size: 1.4em;
             }
             
-            .summary {
-                padding: 15px;
-                bottom: 10px;
+            .summary-quick {
+                flex-direction: column;
+                gap: 10px;
             }
             
-            .summary-total {
-                font-size: 1.8em;
+            .summary-total-quick {
+                font-size: 1.5em;
+            }
+            
+            .admin-tabs {
+                justify-content: center;
             }
         }
         
@@ -325,6 +548,16 @@
     </style>
 </head>
 <body>
+    <!-- Modal para pedir nombre -->
+    <div id="nameModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h2>👋 ¡Bienvenido!</h2>
+            <p>Para poder identificar tus selecciones, por favor ingresá tu nombre:</p>
+            <input type="text" id="userName" placeholder="Ej: Juan, María, etc." maxlength="20">
+            <button onclick="window.saveUserName()">Continuar</button>
+        </div>
+    </div>
+
     <div class="container">
         <div id="loading" class="loading">Cargando muebles</div>
         <div id="app" style="display: none;">
@@ -332,26 +565,37 @@
                 🏠 Muebles en Venta
                 <span id="adminBadge" style="display: none;" class="admin-badge">👨‍💼 VISTA ADMIN</span>
             </h1>
-            <p class="subtitle" id="subtitle">Seleccioná los muebles que te interesan comprando la casa</p>
+            <p class="subtitle" id="subtitle">Seleccioná los muebles que te interesan</p>
             
+            <div style="text-align: center;">
+                <div id="userBadge" class="user-badge" style="display: none;"></div>
+            </div>
+            
+            <div id="adminTabs" style="display: none;" class="admin-tabs"></div>
             <div id="adminStats" style="display: none;" class="admin-stats"></div>
             
-            <div id="zonesContainer"></div>
-            
-            <div id="summary" class="summary" style="display: none;">
-                <h2>📋 Resumen de Selección</h2>
-                <div id="summaryItems" class="summary-items"></div>
-                <div class="summary-total">
-                    Total: <span id="totalPrice">$0</span>
+            <!-- Resumen sticky colapsable -->
+            <div id="summarySticky" class="summary-sticky" style="display: none;">
+                <div class="summary-header" onclick="window.toggleSummary()">
+                    <div class="summary-title">📋 Resumen de Selección</div>
+                    <div class="summary-quick">
+                        <div class="summary-count"><span id="summaryCountQuick">0</span> items</div>
+                        <div class="summary-total-quick">$<span id="summaryTotalQuick">0</span></div>
+                        <div class="summary-toggle" id="summaryToggle">▼</div>
+                    </div>
+                </div>
+                <div class="summary-content" id="summaryContent">
+                    <div id="summaryItems"></div>
                 </div>
             </div>
+            
+            <div id="zonesContainer"></div>
         </div>
     </div>
 
     <script type="module">
-        // Configuración de Firebase
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-        import { getDatabase, ref, set, onValue } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
+        import { getDatabase, ref, set, onValue, remove } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
 
         const firebaseConfig = {
             apiKey: "AIzaSyDbQIncaAcBArd1BWgihXTlEYv2zaBbzmE",
@@ -368,79 +612,178 @@
         const database = getDatabase(app);
         const selectionsRef = ref(database, 'selections');
 
-        // Datos de los muebles organizados por zona
+        const baseUrl = 'https://ferjsalvatierra-ctrl.github.io/muebles-casa/';
+
         const furnitureByZone = {
             "Living": [
-                { id: 1, name: "Rack de TV (pitiribí)", price: 1400000, icon: "📺" },
-                { id: 2, name: "Mesa ratona (pitiribí)", price: 400000, icon: "🪑" },
-                { id: 3, name: "Sillón - sofá con funda", price: 300000, icon: "🛋️" }
+                { id: 1, name: "Rack de TV (pitiribí)", price: 1400000, images: ["rack.jpeg"] },
+                { id: 2, name: "Mesa ratona (pitiribí)", price: 400000, images: ["ratona.jpeg"] },
+                { id: 3, name: "Sillón - sofá con funda", price: 300000, images: ["sillon-sofa.jpeg"] }
             ],
             "Comedor": [
-                { id: 4, name: "Mesa (pitiribí)", price: 800000, icon: "🪑" },
-                { id: 5, name: "6 Sillas pitiribí + fundas tusor", price: 1500000, icon: "🪑" },
-                { id: 6, name: "Lámpara nórdica", price: 70000, icon: "💡" },
-                { id: 7, name: "Biblioteca nórdica", price: 110000, icon: "📚" }
+                { id: 4, name: "Mesa (pitiribí)", price: 800000, images: ["mesacomedorysillas.jpeg"] },
+                { id: 5, name: "6 Sillas pitiribí + fundas tusor", price: 1500000, images: ["mesacomedorysillas.jpeg"] },
+                { id: 6, name: "Lámpara nórdica", price: 70000, images: ["lampara.jpeg"] },
+                { id: 7, name: "Biblioteca nórdica", price: 110000, images: ["biblioteca.jpeg"] }
             ],
             "Habitación": [
-                { id: 8, name: "Sillón pitiribí", price: 400000, icon: "🛋️" },
-                { id: 9, name: "2 Mesas de luz (álamo)", price: 400000, icon: "🛏️" },
-                { id: 10, name: "Escritorio (álamo)", price: 200000, icon: "🖥️" },
-                { id: 11, name: "Cama Box 2x2m", price: 200000, icon: "🛏️" },
-                { id: 12, name: "Cómoda (álamo)", price: 400000, icon: "👔" }
+                { id: 8, name: "Sillón pitiribí", price: 400000, images: ["sillon-sofa.jpeg"] },
+                { id: 9, name: "2 Mesas de luz (álamo)", price: 400000, images: ["dormitorio.jpg"] },
+                { id: 10, name: "Escritorio (álamo)", price: 200000, images: ["escritorio.jpeg"] },
+                { id: 11, name: "Cama Box 2x2m", price: 200000, images: ["dormitorio.jpg"] },
+                { id: 12, name: "Cómoda (álamo)", price: 400000, images: ["comoda.jpeg"] }
             ],
             "Habitación Infantil": [
-                { id: 13, name: "Mesas de luz y base cama 1 plaza y 1/2", price: 500000, icon: "🛏️" }
+                { id: 13, name: "Mesas de luz y base cama 1 plaza y 1/2", price: 500000, images: ["habitacion-ninfantil.jpeg"] }
             ],
             "Cocina": [
-                { id: 14, name: "Heladera Samsung No Frost Inverter", price: 800000, icon: "🧊" },
-                { id: 15, name: "Microondas BGH con Grill y convector", price: 450000, icon: "🍽️" }
+                { id: 14, name: "Heladera Samsung No Frost Inverter", price: 800000, images: ["heladera-y-microondas.jpeg"] },
+                { id: 15, name: "Microondas BGH con Grill y convector", price: 450000, images: ["heladera-y-microondas.jpeg"] }
             ],
             "Lavadero": [
-                { id: 16, name: "Lava-secarropas Candy", price: 700000, icon: "🧺" }
+                { id: 16, name: "Lava-secarropas Candy", price: 700000, images: ["lavasecarropas.jpeg"] }
             ],
             "Quincho": [
-                { id: 17, name: "Microondas Whirlpool", price: 150000, icon: "🍽️" },
-                { id: 18, name: "Heladera bajo mesada", price: 280000, icon: "🧊" },
-                { id: 19, name: "Juego de quincho (sillón, mesa ratona y dos sillones)", price: 250000, icon: "🪑" },
-                { id: 20, name: "Grupo Electrógeno a gas Lusqtoff 3500", price: 1100000, icon: "⚡" },
-                { id: 21, name: "12 Sillas nórdicas", price: 200000, icon: "🪑" },
-                { id: 22, name: "Mesa extendible", price: 450000, icon: "🪑" }
+                { id: 17, name: "Microondas Whirlpool", price: 150000, images: ["heladera-y-microondas.jpeg"] },
+                { id: 18, name: "Heladera bajo mesada", price: 280000, images: ["heladera-y-microondas.jpeg"] },
+                { id: 19, name: "Juego de quincho (sillón, mesa ratona y dos sillones)", price: 250000, images: ["mesaquincho.jpeg"] },
+                { id: 20, name: "Grupo Electrógeno a gas Lusqtoff 3500", price: 1100000, images: ["grupoelectrogeno.jpeg"] },
+                { id: 21, name: "12 Sillas nórdicas", price: 200000, images: ["mesaquincho.jpeg"] },
+                { id: 22, name: "Mesa extendible", price: 450000, images: ["mesaquincho.jpeg"] }
             ],
             "Patio": [
-                { id: 23, name: "Juego de sillas símil ratán", price: 200000, icon: "🌿" }
+                { id: 23, name: "Juego de sillas símil ratán", price: 200000, images: ["juegomueblespatio.jpeg"] }
             ],
             "Decoración": [
-                { id: 24, name: "5 Macetones con plantas", price: 350000, icon: "🪴" },
-                { id: 25, name: "Cuadro de acero calado living, cuadros de comedor y toilet, cuadro de habitación, fanales escalera", price: 350000, icon: "🖼️" }
+                { id: 24, name: "5 Macetones con plantas", price: 350000, images: ["maceta-planta1.jpeg", "maceta-planta2.jpeg"] },
+                { id: 25, name: "Cuadros de acero calado living, comedor, toilet, habitación y fanales escalera", price: 350000, images: ["decoracion-cuadro.jpeg", "decoraciones-fanales.jpeg"] }
             ]
         };
 
-        let selections = {};
+        let selections = {}; // {userName: {itemId: true}}
+        let currentUser = localStorage.getItem('currentUser');
         const isAdmin = window.location.search.includes('admin');
+        const galleryStates = {};
+        let activeAdminTab = 'all';
 
         // Escuchar cambios en Firebase
         onValue(selectionsRef, (snapshot) => {
             const data = snapshot.val() || {};
-            selections = {};
-            Object.keys(data).forEach(key => {
-                selections[key] = data[key].selected;
-            });
+            selections = data;
             updateUI();
         });
 
-        function saveSelection(id, selected) {
-            set(ref(database, 'selections/' + id), {
-                selected: selected,
-                timestamp: Date.now()
-            });
+        function saveSelection(itemId, selected) {
+            if (!currentUser) return;
+            
+            if (selected) {
+                set(ref(database, `selections/${currentUser}/${itemId}`), {
+                    selected: true,
+                    timestamp: Date.now()
+                });
+            } else {
+                remove(ref(database, `selections/${currentUser}/${itemId}`));
+            }
         }
 
+        window.saveUserName = function() {
+            const input = document.getElementById('userName');
+            const name = input.value.trim();
+            
+            if (name.length < 2) {
+                alert('Por favor ingresá un nombre válido');
+                return;
+            }
+            
+            currentUser = name;
+            localStorage.setItem('currentUser', currentUser);
+            document.getElementById('nameModal').style.display = 'none';
+            document.getElementById('userBadge').textContent = `👤 ${currentUser}`;
+            document.getElementById('userBadge').style.display = 'inline-block';
+        };
+
         function formatPrice(price) {
-            return '$' + price.toLocaleString('es-AR');
+            return price.toLocaleString('es-AR');
         }
 
         function calculateZoneSubtotal(items) {
             return items.reduce((sum, item) => sum + item.price, 0);
+        }
+
+        function getUsersWhoSelected(itemId) {
+            const users = [];
+            Object.keys(selections).forEach(userName => {
+                if (selections[userName][itemId]) {
+                    users.push(userName);
+                }
+            });
+            return users;
+        }
+
+        function isSelectedByCurrentUser(itemId) {
+            return currentUser && selections[currentUser] && selections[currentUser][itemId];
+        }
+
+        function isSelectedByAnyUser(itemId) {
+            return Object.keys(selections).some(userName => 
+                selections[userName] && selections[userName][itemId]
+            );
+        }
+
+        window.toggleSummary = function() {
+            const content = document.getElementById('summaryContent');
+            const toggle = document.getElementById('summaryToggle');
+            content.classList.toggle('collapsed');
+            toggle.classList.toggle('collapsed');
+        };
+
+        window.nextImage = function(id) {
+            const item = Object.values(furnitureByZone).flat().find(i => i.id === id);
+            if (!item || item.images.length <= 1) return;
+            
+            if (!galleryStates[id]) galleryStates[id] = 0;
+            galleryStates[id] = (galleryStates[id] + 1) % item.images.length;
+            updateGalleryImage(id, item);
+        };
+
+        window.prevImage = function(id) {
+            const item = Object.values(furnitureByZone).flat().find(i => i.id === id);
+            if (!item || item.images.length <= 1) return;
+            
+            if (!galleryStates[id]) galleryStates[id] = 0;
+            galleryStates[id] = galleryStates[id] - 1;
+            if (galleryStates[id] < 0) galleryStates[id] = item.images.length - 1;
+            updateGalleryImage(id, item);
+        };
+
+        function updateGalleryImage(id, item) {
+            const img = document.querySelector(`#img-${id}`);
+            const counter = document.querySelector(`#counter-${id}`);
+            if (img && galleryStates[id] !== undefined) {
+                img.src = baseUrl + item.images[galleryStates[id]];
+                if (counter) {
+                    counter.textContent = `${galleryStates[id] + 1}/${item.images.length}`;
+                }
+            }
+        }
+
+        window.switchAdminTab = function(tab) {
+            activeAdminTab = tab;
+            document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+            document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
+            updateUI();
+        };
+
+        function renderAdminTabs() {
+            const tabsDiv = document.getElementById('adminTabs');
+            const users = Object.keys(selections);
+            
+            let tabsHTML = '<button class="admin-tab active" data-tab="all" onclick="window.switchAdminTab(\'all\')">📊 Todos</button>';
+            users.forEach(user => {
+                tabsHTML += `<button class="admin-tab" data-tab="${user}" onclick="window.switchAdminTab('${user}')">👤 ${user}</button>`;
+            });
+            
+            tabsDiv.innerHTML = tabsHTML;
         }
 
         function renderZones() {
@@ -452,16 +795,40 @@
                 zoneSection.className = 'zone-section';
 
                 const subtotal = calculateZoneSubtotal(items);
-                const selectedCount = items.filter(item => selections[item.id]).length;
-                const selectedSubtotal = items
-                    .filter(item => selections[item.id])
-                    .reduce((sum, item) => sum + item.price, 0);
+                
+                let selectedCount = 0;
+                let selectedSubtotal = 0;
+                
+                if (isAdmin) {
+                    if (activeAdminTab === 'all') {
+                        items.forEach(item => {
+                            if (isSelectedByAnyUser(item.id)) {
+                                selectedCount++;
+                                selectedSubtotal += item.price;
+                            }
+                        });
+                    } else {
+                        items.forEach(item => {
+                            if (selections[activeAdminTab] && selections[activeAdminTab][item.id]) {
+                                selectedCount++;
+                                selectedSubtotal += item.price;
+                            }
+                        });
+                    }
+                } else {
+                    items.forEach(item => {
+                        if (isSelectedByCurrentUser(item.id)) {
+                            selectedCount++;
+                            selectedSubtotal += item.price;
+                        }
+                    });
+                }
 
                 zoneSection.innerHTML = `
                     <div class="zone-header">
                         <div class="zone-title">📍 ${zoneName}</div>
                         <div class="zone-subtotal">
-                            ${selectedCount > 0 ? `${formatPrice(selectedSubtotal)} / ` : ''}${formatPrice(subtotal)}
+                            ${selectedCount > 0 ? `$${formatPrice(selectedSubtotal)} / ` : ''}$${formatPrice(subtotal)}
                         </div>
                     </div>
                     <div class="zone-content">
@@ -475,20 +842,50 @@
                 items.forEach(item => {
                     const card = document.createElement('div');
                     card.className = 'furniture-card';
-                    if (selections[item.id]) card.classList.add('selected');
+                    
+                    const usersWhoSelected = getUsersWhoSelected(item.id);
+                    const selectedByCurrentUser = isSelectedByCurrentUser(item.id);
+                    
+                    if (isAdmin) {
+                        if (activeAdminTab === 'all' && usersWhoSelected.length > 0) {
+                            card.classList.add('selected');
+                        } else if (activeAdminTab !== 'all' && selections[activeAdminTab] && selections[activeAdminTab][item.id]) {
+                            card.classList.add('selected');
+                        }
+                    } else {
+                        if (selectedByCurrentUser) card.classList.add('selected');
+                    }
+
+                    const hasGallery = item.images.length > 1;
+                    if (!galleryStates[item.id]) galleryStates[item.id] = 0;
+
+                    let badgesHTML = '';
+                    if (isAdmin && activeAdminTab === 'all' && usersWhoSelected.length > 0) {
+                        badgesHTML = `<div class="selected-by-badges">
+                            ${usersWhoSelected.map(user => `<div class="selected-by-badge">${user}</div>`).join('')}
+                        </div>`;
+                    }
 
                     card.innerHTML = `
-                        <div class="furniture-image">${item.icon}</div>
+                        ${badgesHTML}
+                        <div class="furniture-image-container ${hasGallery ? 'image-gallery' : ''}">
+                            <img id="img-${item.id}" src="${baseUrl}${item.images[0]}" alt="${item.name}" class="furniture-image">
+                            ${hasGallery ? `
+                                <button class="gallery-nav prev" onclick="window.prevImage(${item.id})">←</button>
+                                <button class="gallery-nav next" onclick="window.nextImage(${item.id})">→</button>
+                                <div class="gallery-counter" id="counter-${item.id}">1/${item.images.length}</div>
+                            ` : ''}
+                        </div>
                         <div class="furniture-info">
                             <div class="furniture-name">${item.name}</div>
-                            <div class="furniture-price">${formatPrice(item.price)}</div>
+                            <div class="furniture-price">$${formatPrice(item.price)}</div>
                             <label class="checkbox-container">
                                 <input type="checkbox" 
-                                       ${selections[item.id] ? 'checked' : ''} 
+                                       ${selectedByCurrentUser ? 'checked' : ''} 
                                        ${isAdmin ? 'disabled' : ''}
                                        onchange="window.toggleSelection(${item.id}, this.checked)">
                                 <span class="checkbox-label">
-                                    ${isAdmin ? (selections[item.id] ? '✓ Seleccionado' : '○ No seleccionado') : 'Me interesa'}
+                                    ${isAdmin ? (usersWhoSelected.length > 0 ? `✓ ${usersWhoSelected.length} persona(s)` : '○ No seleccionado') : 'Me interesa'}
                                 </span>
                             </label>
                         </div>
@@ -500,11 +897,14 @@
         }
 
         function updateSummary() {
+            if (isAdmin) return; // No mostrar resumen en vista admin
+            
             const allItems = Object.values(furnitureByZone).flat();
-            const selectedItems = allItems.filter(item => selections[item.id]);
-            const summaryDiv = document.getElementById('summary');
+            const selectedItems = allItems.filter(item => isSelectedByCurrentUser(item.id));
+            const summaryDiv = document.getElementById('summarySticky');
             const itemsDiv = document.getElementById('summaryItems');
-            const totalDiv = document.getElementById('totalPrice');
+            const countQuick = document.getElementById('summaryCountQuick');
+            const totalQuick = document.getElementById('summaryTotalQuick');
 
             if (selectedItems.length === 0) {
                 summaryDiv.style.display = 'none';
@@ -512,41 +912,77 @@
             }
 
             summaryDiv.style.display = 'block';
+            countQuick.textContent = selectedItems.length;
+            
+            const total = selectedItems.reduce((sum, item) => sum + item.price, 0);
+            totalQuick.textContent = formatPrice(total);
+
             itemsDiv.innerHTML = selectedItems.map(item => `
                 <div class="summary-item">
-                    <span>${item.icon} ${item.name}</span>
-                    <strong>${formatPrice(item.price)}</strong>
+                    <span>${item.name}</span>
+                    <strong>$${formatPrice(item.price)}</strong>
                 </div>
             `).join('');
-
-            const total = selectedItems.reduce((sum, item) => sum + item.price, 0);
-            totalDiv.textContent = formatPrice(total);
         }
 
         function updateAdminStats() {
             const statsDiv = document.getElementById('adminStats');
             const allItems = Object.values(furnitureByZone).flat();
-            const selectedItems = allItems.filter(item => selections[item.id]);
-            const total = selectedItems.reduce((sum, item) => sum + item.price, 0);
-            const totalPossible = allItems.reduce((sum, item) => sum + item.price, 0);
+            const users = Object.keys(selections);
+            
+            if (activeAdminTab === 'all') {
+                let totalSelectedItems = 0;
+                let totalAmount = 0;
+                
+                allItems.forEach(item => {
+                    const usersWhoSelected = getUsersWhoSelected(item.id);
+                    if (usersWhoSelected.length > 0) {
+                        totalSelectedItems++;
+                        totalAmount += item.price;
+                    }
+                });
+                
+                const totalPossible = allItems.reduce((sum, item) => sum + item.price, 0);
 
-            statsDiv.innerHTML = `
-                <div class="stat-card">
-                    <div class="stat-number">${selectedItems.length}</div>
-                    <div class="stat-label">Muebles Seleccionados de ${allItems.length}</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">${formatPrice(total)}</div>
-                    <div class="stat-label">Total Seleccionado</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">${Math.round((total / totalPossible) * 100)}%</div>
-                    <div class="stat-label">Del Total Posible (${formatPrice(totalPossible)})</div>
-                </div>
-            `;
+                statsDiv.innerHTML = `
+                    <div class="stat-card">
+                        <div class="stat-number">${users.length}</div>
+                        <div class="stat-label">Personas Mirando</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">${totalSelectedItems}</div>
+                        <div class="stat-label">Muebles con Interés</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">$${formatPrice(totalAmount)}</div>
+                        <div class="stat-label">Valor Total Seleccionado</div>
+                    </div>
+                `;
+            } else {
+                const userSelections = selections[activeAdminTab] || {};
+                const selectedItems = allItems.filter(item => userSelections[item.id]);
+                const total = selectedItems.reduce((sum, item) => sum + item.price, 0);
+                const totalPossible = allItems.reduce((sum, item) => sum + item.price, 0);
+
+                statsDiv.innerHTML = `
+                    <div class="stat-card">
+                        <div class="stat-number">${selectedItems.length}</div>
+                        <div class="stat-label">Muebles Seleccionados por ${activeAdminTab}</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">$${formatPrice(total)}</div>
+                        <div class="stat-label">Total de ${activeAdminTab}</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">${Math.round((total / totalPossible) * 100)}%</div>
+                        <div class="stat-label">Del Total Posible</div>
+                    </div>
+                `;
+            }
         }
 
         function updateUI() {
+            if (isAdmin) renderAdminTabs();
             renderZones();
             updateSummary();
             if (isAdmin) updateAdminStats();
@@ -560,7 +996,20 @@
         if (isAdmin) {
             document.getElementById('adminBadge').style.display = 'inline-block';
             document.getElementById('adminStats').style.display = 'grid';
+            document.getElementById('adminTabs').style.display = 'flex';
             document.getElementById('subtitle').textContent = 'Vista de administrador - Monitoreando selecciones en tiempo real';
+            currentUser = 'admin';
+        } else {
+            if (!currentUser) {
+                document.getElementById('nameModal').style.display = 'flex';
+                document.getElementById('userName').focus();
+                document.getElementById('userName').addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') window.saveUserName();
+                });
+            } else {
+                document.getElementById('userBadge').textContent = `👤 ${currentUser}`;
+                document.getElementById('userBadge').style.display = 'inline-block';
+            }
         }
 
         setTimeout(() => {
@@ -571,3 +1020,4 @@
     </script>
 </body>
 </html>
+
