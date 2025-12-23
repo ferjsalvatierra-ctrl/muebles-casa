@@ -175,83 +175,98 @@
             color: white;
         }
         
-        /* Resumen sticky colapsable */
-        .summary-sticky {
+        /* NUEVO: Resumen compacto como barra superior */
+        .summary-bar {
             position: sticky;
             top: 10px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
             color: white;
-            border-radius: 12px;
+            border-radius: 10px;
             margin-bottom: 30px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
             z-index: 100;
             overflow: hidden;
+            transition: all 0.3s ease;
         }
         
-        .summary-header {
-            padding: 20px;
+        .summary-compact {
+            padding: 15px 25px;
             cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
             user-select: none;
+            transition: background 0.2s;
         }
         
-        .summary-header:hover {
+        .summary-compact:hover {
             background: rgba(255,255,255,0.1);
         }
         
-        .summary-title {
-            font-size: 1.5em;
-            font-weight: bold;
-        }
-        
-        .summary-quick {
+        .summary-left {
             display: flex;
-            gap: 30px;
             align-items: center;
+            gap: 15px;
         }
         
-        .summary-count {
-            font-size: 1.2em;
+        .summary-icon {
+            font-size: 1.5em;
         }
         
-        .summary-total-quick {
+        .summary-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .summary-items-count {
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+        
+        .summary-total-compact {
             font-size: 1.8em;
             font-weight: bold;
         }
         
-        .summary-toggle {
-            font-size: 1.5em;
+        .summary-arrow {
+            font-size: 1.3em;
             transition: transform 0.3s;
         }
         
-        .summary-toggle.collapsed {
+        .summary-arrow.expanded {
             transform: rotate(180deg);
         }
         
-        .summary-content {
-            max-height: 400px;
-            overflow-y: auto;
-            padding: 0 20px 20px 20px;
-            transition: max-height 0.3s ease;
+        .summary-detail {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            background: rgba(255,255,255,0.1);
         }
         
-        .summary-content.collapsed {
-            max-height: 0;
-            padding: 0;
+        .summary-detail.expanded {
+            max-height: 500px;
+            padding: 20px 25px;
+            border-top: 1px solid rgba(255,255,255,0.3);
         }
         
         .summary-item {
-            padding: 12px;
+            padding: 10px 0;
             border-bottom: 1px solid rgba(255,255,255,0.2);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            font-size: 0.95em;
         }
         
         .summary-item:last-child {
             border-bottom: none;
+        }
+        
+        .summary-detail-scroll {
+            max-height: 400px;
+            overflow-y: auto;
         }
         
         .zone-section {
@@ -514,17 +529,22 @@
                 font-size: 1.4em;
             }
             
-            .summary-quick {
+            .summary-info {
                 flex-direction: column;
-                gap: 10px;
+                gap: 5px;
+                align-items: flex-start;
             }
             
-            .summary-total-quick {
+            .summary-total-compact {
                 font-size: 1.5em;
             }
             
             .admin-tabs {
                 justify-content: center;
+            }
+            
+            .summary-compact {
+                padding: 12px 15px;
             }
         }
         
@@ -574,18 +594,20 @@
             <div id="adminTabs" style="display: none;" class="admin-tabs"></div>
             <div id="adminStats" style="display: none;" class="admin-stats"></div>
             
-            <!-- Resumen sticky colapsable -->
-            <div id="summarySticky" class="summary-sticky" style="display: none;">
-                <div class="summary-header" onclick="window.toggleSummary()">
-                    <div class="summary-title">📋 Resumen de Selección</div>
-                    <div class="summary-quick">
-                        <div class="summary-count"><span id="summaryCountQuick">0</span> items</div>
-                        <div class="summary-total-quick">$<span id="summaryTotalQuick">0</span></div>
-                        <div class="summary-toggle" id="summaryToggle">▼</div>
+            <!-- NUEVO: Barra compacta de resumen -->
+            <div id="summaryBar" class="summary-bar" style="display: none;">
+                <div class="summary-compact" onclick="window.toggleSummaryBar()">
+                    <div class="summary-left">
+                        <span class="summary-icon">📋</span>
+                        <div class="summary-info">
+                            <span class="summary-items-count"><span id="itemsCount">0</span> items</span>
+                            <span class="summary-total-compact">$<span id="totalAmount">0</span></span>
+                        </div>
                     </div>
+                    <span class="summary-arrow" id="summaryArrow">▼</span>
                 </div>
-                <div class="summary-content" id="summaryContent">
-                    <div id="summaryItems"></div>
+                <div class="summary-detail" id="summaryDetail">
+                    <div class="summary-detail-scroll" id="summaryDetailContent"></div>
                 </div>
             </div>
             
@@ -621,17 +643,17 @@
                 { id: 3, name: "Sillón - sofá con funda", price: 300000, images: ["sillon-sofa.jpeg"] }
             ],
             "Comedor": [
-                { id: 4, name: "Mesa (pitiribí)", price: 800000, images: ["mesacomedorysillas.jpeg"] },
+                { id: 4, name: "Mesa (pitiribí)", price: 1000000, images: ["mesacomedorysillas.jpeg"] },
                 { id: 5, name: "6 Sillas pitiribí + fundas tusor", price: 1500000, images: ["mesacomedorysillas.jpeg"] },
                 { id: 6, name: "Lámpara nórdica", price: 70000, images: ["lampara.jpeg"] },
-                { id: 7, name: "Biblioteca nórdica", price: 110000, images: ["biblioteca.jpeg"] }
+                { id: 7, name: "Biblioteca nórdica", price: 100000, images: ["biblioteca.jpeg"] }
             ],
             "Habitación": [
-                { id: 8, name: "Sillón pitiribí", price: 400000, images: ["sillon-sofa.jpeg"] },
-                { id: 9, name: "2 Mesas de luz (álamo)", price: 400000, images: ["dormitorio.jpg"] },
-                { id: 10, name: "Escritorio (álamo)", price: 200000, images: ["escritorio.jpeg"] },
+                { id: 8, name: "Sillón pitiribí", price: 350000, images: ["sillon-y-escritorio-habitacion.jpeg"] },
+                { id: 9, name: "2 Mesas de luz (álamo)", price: 500000, images: ["dormitorio.jpg"] },
+                { id: 10, name: "Escritorio (álamo)", price: 300000, images: ["sillon-y-escritorio-habitacion.jpeg"] },
                 { id: 11, name: "Cama Box 2x2m", price: 200000, images: ["dormitorio.jpg"] },
-                { id: 12, name: "Cómoda (álamo)", price: 400000, images: ["comoda.jpeg"] }
+                { id: 12, name: "Cómoda (álamo)", price: 500000, images: ["comoda.jpeg"] }
             ],
             "Habitación Infantil": [
                 { id: 13, name: "Mesas de luz y base cama 1 plaza y 1/2", price: 500000, images: ["habitacion-ninfantil.jpeg"] }
@@ -644,9 +666,9 @@
                 { id: 16, name: "Lava-secarropas Candy", price: 700000, images: ["lavasecarropas.jpeg"] }
             ],
             "Quincho": [
-                { id: 17, name: "Microondas Whirlpool", price: 150000, images: ["heladera-y-microondas.jpeg"] },
-                { id: 18, name: "Heladera bajo mesada", price: 280000, images: ["heladera-y-microondas.jpeg"] },
-                { id: 19, name: "Juego de quincho (sillón, mesa ratona y dos sillones)", price: 250000, images: ["mesaquincho.jpeg"] },
+                { id: 17, name: "Microondas Whirlpool", price: 150000, images: ["heladera-bajo-mesada-y-micrrondas-whirlpool.jpeg"] },
+                { id: 18, name: "Heladera bajo mesada", price: 280000, images: ["heladera-bajo-mesada-y-micrrondas-whirlpool.jpeg"] },
+                { id: 19, name: "Juego de quincho (sillón, mesa ratona y dos sillones)", price: 250000, images: ["juego-terraza.jpeg"] },
                 { id: 20, name: "Grupo Electrógeno a gas Lusqtoff 3500", price: 1100000, images: ["grupoelectrogeno.jpeg"] },
                 { id: 21, name: "12 Sillas nórdicas", price: 200000, images: ["mesaquincho.jpeg"] },
                 { id: 22, name: "Mesa extendible", price: 450000, images: ["mesaquincho.jpeg"] }
@@ -660,13 +682,13 @@
             ]
         };
 
-        let selections = {}; // {userName: {itemId: true}}
+        let selections = {};
         let currentUser = localStorage.getItem('currentUser');
         const isAdmin = window.location.search.includes('admin');
         const galleryStates = {};
         let activeAdminTab = 'all';
+        let summaryExpanded = false;
 
-        // Escuchar cambios en Firebase
         onValue(selectionsRef, (snapshot) => {
             const data = snapshot.val() || {};
             selections = data;
@@ -702,6 +724,20 @@
             document.getElementById('userBadge').style.display = 'inline-block';
         };
 
+        window.toggleSummaryBar = function() {
+            summaryExpanded = !summaryExpanded;
+            const detail = document.getElementById('summaryDetail');
+            const arrow = document.getElementById('summaryArrow');
+            
+            if (summaryExpanded) {
+                detail.classList.add('expanded');
+                arrow.classList.add('expanded');
+            } else {
+                detail.classList.remove('expanded');
+                arrow.classList.remove('expanded');
+            }
+        };
+
         function formatPrice(price) {
             return price.toLocaleString('es-AR');
         }
@@ -729,13 +765,6 @@
                 selections[userName] && selections[userName][itemId]
             );
         }
-
-        window.toggleSummary = function() {
-            const content = document.getElementById('summaryContent');
-            const toggle = document.getElementById('summaryToggle');
-            content.classList.toggle('collapsed');
-            toggle.classList.toggle('collapsed');
-        };
 
         window.nextImage = function(id) {
             const item = Object.values(furnitureByZone).flat().find(i => i.id === id);
@@ -897,27 +926,27 @@
         }
 
         function updateSummary() {
-            if (isAdmin) return; // No mostrar resumen en vista admin
+            if (isAdmin) return;
             
             const allItems = Object.values(furnitureByZone).flat();
             const selectedItems = allItems.filter(item => isSelectedByCurrentUser(item.id));
-            const summaryDiv = document.getElementById('summarySticky');
-            const itemsDiv = document.getElementById('summaryItems');
-            const countQuick = document.getElementById('summaryCountQuick');
-            const totalQuick = document.getElementById('summaryTotalQuick');
+            const summaryBar = document.getElementById('summaryBar');
+            const itemsCount = document.getElementById('itemsCount');
+            const totalAmount = document.getElementById('totalAmount');
+            const detailContent = document.getElementById('summaryDetailContent');
 
             if (selectedItems.length === 0) {
-                summaryDiv.style.display = 'none';
+                summaryBar.style.display = 'none';
                 return;
             }
 
-            summaryDiv.style.display = 'block';
-            countQuick.textContent = selectedItems.length;
+            summaryBar.style.display = 'block';
+            itemsCount.textContent = selectedItems.length;
             
             const total = selectedItems.reduce((sum, item) => sum + item.price, 0);
-            totalQuick.textContent = formatPrice(total);
+            totalAmount.textContent = formatPrice(total);
 
-            itemsDiv.innerHTML = selectedItems.map(item => `
+            detailContent.innerHTML = selectedItems.map(item => `
                 <div class="summary-item">
                     <span>${item.name}</span>
                     <strong>$${formatPrice(item.price)}</strong>
@@ -992,7 +1021,6 @@
             saveSelection(id, selected);
         };
 
-        // Inicializar
         if (isAdmin) {
             document.getElementById('adminBadge').style.display = 'inline-block';
             document.getElementById('adminStats').style.display = 'grid';
@@ -1020,4 +1048,5 @@
     </script>
 </body>
 </html>
+
 
